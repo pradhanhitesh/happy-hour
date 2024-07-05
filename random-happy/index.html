@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAPPY HOUR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            background-image: url(bg.jpg);
+            overflow: hidden;
+        }
+        #container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        #word {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .pop {
+            animation: pop 0.6s ease-out;
+        }
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+                color: black;
+            }
+            50% {
+                transform: scale(1.5);
+                color: red;
+            }
+            100% {
+                transform: scale(1);
+                color: green;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="word">Press the button to select the next host</div>
+        <button id="generateButton" onclick="startRandomization()">START</button>
+    </div>
+    <script>
+        let isRunning = false;
+
+        function startRandomization() {
+            if (!isRunning) {
+                isRunning = true;
+                generateRandomWord();
+                setTimeout(() => {
+                    isRunning = false;
+                }, 3000);
+            }
+        }
+
+        const words = ['Thomas Lab','Smitha Lab','Chinna Lab','Latha Lab', 'Reddy Lab','Shiva Lab','Bratati Lab',' Neelam Lab','Shweta Lab','TLSA Team'];
+        let intervalId;
+
+        function generateRandomWord() {
+            let counter = 0;
+            const randomDuration = 3000; // 3 seconds
+            const intervalDuration = 100; // 0.1 second
+
+            intervalId = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * words.length);
+                document.getElementById("word").textContent = words[randomIndex];
+                counter += intervalDuration;
+
+                if (counter >= randomDuration) {
+                    clearInterval(intervalId);
+                    const finalRandomIndex = Math.floor(Math.random() * words.length);
+                    const wordElement = document.getElementById("word");
+                    wordElement.textContent = words[finalRandomIndex];
+                    wordElement.classList.add("pop");
+                    setTimeout(() => {
+                        wordElement.classList.remove("pop");
+                    }, 600); // Duration of the pop animation
+                }
+            }, intervalDuration);
+        }
+    </script>
+</body>
+</html>
